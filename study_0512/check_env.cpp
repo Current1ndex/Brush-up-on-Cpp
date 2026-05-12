@@ -1,6 +1,14 @@
 // 建议改用前缀 c 引入C 中的标准库头文件，这样头文件内容会被包含在 std 命名空间
 #include <iostream>
 #include <cmath>
+#include <compare>
+#include <array>
+#include <vector>
+#include <utility>
+#include <optional>
+
+// optional 可以选择保留特定类型的值，或者不包含任何值
+std::optional<int> getData(int id) { if (id == 0) return 100; return std::nullopt;}
 
 // argv[0] 不应该使用，它可能是函数名称，也可能是空字符串
 int main(int argc, char const *argv[])
@@ -34,4 +42,29 @@ int main(int argc, char const *argv[])
         std::cout << "this price is useful.\n";
         break;
     }
+
+    // 建议日志模块通过 __func__ 获取当前函数的名称
+    std::cout << __func__ << "\n";
+
+    /** 属性：将可选或特定于编译器厂商的信息使用 [[]] 添加到源代码
+     * [[nodiscard]] 如果函数被调用，但是对返回值没有任何处理，编译器警告
+     * [[maybe_unused]] 禁止编译器在未使用某些内容时发出警告
+     * [[noreturn]] 避免编译器因函数不返回控制权给调用点而警告
+     * [[deprecated]] 将某些内容标记为不鼓励使用
+     * [[likely]]、[[unlikely]] 协助编译器预测分支
+     */
+
+    std::array<int, 3> arr {};
+    std::vector<int> vtr {};
+    std::cout << vtr.size();
+    // pair 将两个可能不同类型的值组合在一起
+    std::pair<int, float> p {9, 3.22f};
+    std::cout << "first: " << p.first << ", sencond: " << p.second << ".\n";
+
+    // optional 可以选择保留特定类型的值，或者不包含任何值
+    std::optional<int> output0 = getData(2);
+    if (!output0.has_value()) {
+        std::cout << "!output0.has_value() == true.\n";
+    }
+        
 }
